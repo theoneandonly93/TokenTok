@@ -36,11 +36,11 @@ export default function TrendingPage() {
         ) : tokens.length === 0 ? (
           <div className="text-center text-white/70 py-8">No trending tokens found.</div>
         ) : (
-          <ul className="flex flex-col sm:flex-row sm:overflow-x-auto gap-4">
+          <ul className="flex flex-col gap-4">
             {tokens.map((token) => (
               <li
                 key={token.id}
-                className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 min-w-0 sm:min-w-[320px] w-full sm:w-[340px] shadow-md hover:bg-white/10 transition"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 w-full shadow-md hover:bg-white/10 transition"
               >
                 <div className="relative flex-shrink-0">
                   <img
