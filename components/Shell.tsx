@@ -29,8 +29,8 @@ export default function Shell({ children }:{ children: React.ReactNode }) {
     <div className="relative mx-auto h-dvh max-w-screen-sm">
       <header className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-between p-3">
         <div className="pointer-events-auto flex items-center gap-2">
-          <Image src="/logo.svg" alt="logo" width={24} height={24} />
-          <span className="text-sm font-semibold">Launchpad Live</span>
+          <Image src="/TokenTok.png" alt="TokenTok Logo" width={28} height={28} className="rounded" />
+          <span className="text-sm font-semibold">TokenTok</span>
         </div>
         <div className="pointer-events-auto">
           <WalletMultiButton className="!bg-white/10 !text-white hover:!bg-white/20" />

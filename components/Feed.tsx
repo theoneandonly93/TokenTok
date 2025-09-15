@@ -7,8 +7,19 @@ import { useEffect, useState } from 'react';
 export default function Feed(){
   const [streams, setStreams] = useState<any[]>([]);
   useEffect(() => {
-    // TODO: Fetch streams from backend API
-    setStreams([]);
+    // Demo/test stream for mobile visibility
+    setStreams([
+      {
+        id: 'demo1',
+        title: 'Demo Stream: Web3 Launch',
+        creator: 'demo_creator',
+        ticker: 'DEMO',
+        goal: 100,
+        raised: 42,
+        posterUrl: '/TokenTok.png',
+        tokenMint: 'So11111111111111111111111111111111111111112',
+      },
+    ]);
   }, []);
   return (
     <main className="hide-scrollbar snap-y h-dvh w-full overflow-y-scroll">

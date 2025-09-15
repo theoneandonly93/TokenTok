@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Shell from '@/components/Shell';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const [name, setName] = useState<string>(() => {
@@ -47,12 +48,15 @@ export default function ProfilePage() {
   return (
     <Shell>
       <div className="h-dvh overflow-y-auto p-4 pt-16">
-        <h1 className="mb-2 text-xl font-semibold">Your profile</h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-xl font-semibold">Your profile</h1>
+          <Link href="/trending" className="text-pink-500 font-bold text-base px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 transition">Trending</Link>
+        </div>
         <div className="rounded-2xl bg-white/5 p-4 flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <div className="relative w-24 h-24">
               <img
-                src={preview || '/logo.svg'}
+                src={preview || '/TokenTok.png'}
                 alt="Profile"
                 className="rounded-full object-cover w-24 h-24 border border-white/20"
               />
@@ -87,9 +91,36 @@ export default function ProfilePage() {
             </button>
           </div>
           <hr className="my-4 border-white/10" />
-          <p className="text-sm text-white/80">Past commits, claims, and streams will appear here.</p>
+          <InboxSection />
         </div>
       </div>
     </Shell>
   );
+// Inbox section as a subcomponent
+function InboxSection() {
+  const [conversations, setConversations] = useState<any[]>([]);
+  useEffect(() => {
+    // TODO: Fetch conversations from backend
+    setConversations([]);
+  }, []);
+  return (
+    <div>
+      <h2 className="mb-2 text-lg font-semibold">Inbox</h2>
+      {conversations.length === 0 ? (
+        <div className="text-zinc-400">No messages yet.</div>
+      ) : (
+        <ul className="space-y-3">
+          {conversations.map(conv => (
+            <li key={conv.id}>
+              <Link href={`/inbox/${conv.id}`} className="block rounded-xl bg-white/10 p-4">
+                <div className="font-semibold">{conv.title}</div>
+                <div className="text-xs text-zinc-400">{conv.lastMessage}</div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 }

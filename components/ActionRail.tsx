@@ -1,9 +1,16 @@
 'use client';
-import { Heart, MessageCircle, Wallet } from 'lucide-react';
+
+import { Heart, MessageCircle, Wallet, ShoppingCart } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 
-export default function ActionRail({ onCommitClick, streamId }:{ onCommitClick: () => void, streamId: string }) {
+interface ActionRailProps {
+  onCommitClick: () => void;
+  onQuickBuyClick: () => void;
+  streamId: string;
+}
+
+export default function ActionRail({ onCommitClick, onQuickBuyClick, streamId }: ActionRailProps) {
   const [likes, setLikes] = useState(0);
   useEffect(() => {
     // TODO: Fetch like count from backend
@@ -22,6 +29,10 @@ export default function ActionRail({ onCommitClick, streamId }:{ onCommitClick: 
       <button onClick={onCommitClick} className="flex flex-col items-center">
         <div className="rounded-full bg-white/20 p-3"><Wallet /></div>
         <span className="mt-1 text-xs text-white/80">Commit</span>
+      </button>
+      <button onClick={onQuickBuyClick} className="flex flex-col items-center">
+        <div className="rounded-full bg-white/20 p-3"><ShoppingCart /></div>
+        <span className="mt-1 text-xs text-white/80">Quick Buy</span>
       </button>
       <button className="flex flex-col items-center">
         <div className="rounded-full bg-white/20 p-3"><MessageCircle /></div>

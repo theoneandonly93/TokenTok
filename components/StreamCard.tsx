@@ -1,15 +1,26 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import ActionRail from './ActionRail';
+import QuickBuyModal from './QuickBuyModal';
 import ChatOverlay from './ChatOverlay';
 import CommitModal from './CommitModal';
+import { fetchMarketInfo, MarketInfo } from '../utils/market';
 
-export default function StreamCard({ stream }:{ stream: {
-  id: string; title: string; creator: string; ticker: string;
-  goal: number; raised: number; posterUrl?: string;
-}}){
-  const [open, setOpen] = useState(false);
+type Stream = {
+  id: string;
+  title: string;
+  creator: string;
+  ticker: string;
+  goal: number;
+  raised: number;
+  posterUrl?: string;
+  tokenMint: string;
+};
+
+export default function StreamCard({ stream }: { stream: Stream }) {
+  const [commitOpen, setCommitOpen] = useState(false);
+  const [quickBuyOpen, setQuickBuyOpen] = useState(false);
 
   const onCommit = async (amt:number, cur:'SOL'|'USDC') => {
     // TODO: Replace with Anchor client call
@@ -17,7 +28,13 @@ export default function StreamCard({ stream }:{ stream: {
     console.log('Committed', { amt, cur, streamId: stream.id });
   };
 
+
   const pct = Math.min(100, Math.round((stream.raised/stream.goal)*100));
+  const [market, setMarket] = useState<MarketInfo | null>(null);
+
+  useEffect(() => {
+    fetchMarketInfo(stream.tokenMint).then(setMarket);
+  }, [stream.tokenMint]);
 
   return (
     <section className="relative h-dvh w-full snap-center snap-always">
@@ -32,10 +49,25 @@ export default function StreamCard({ stream }:{ stream: {
           <div className="h-full bg-brand" style={{ width: pct + '%' }} />
         </div>
         <p className="text-xs text-white/70">{stream.raised} / {stream.goal} SOL raised</p>
+        {market && (
+          <div className="text-xs text-white/60 mt-1">
+            MC: ${market.marketCap.toLocaleString()} • Vol: ${market.volume24h.toLocaleString()} / 24h • Price: ${market.price}
+          </div>
+        )}
       </div>
-  <ActionRail onCommitClick={()=>setOpen(true)} streamId={stream.id} />
+      <ActionRail
+        onCommitClick={() => setCommitOpen(true)}
+        onQuickBuyClick={() => setQuickBuyOpen(true)}
+        streamId={stream.id}
+      />
       <ChatOverlay streamId={stream.id} />
-      <CommitModal open={open} onClose={()=>setOpen(false)} onCommit={onCommit} />
+      <CommitModal open={commitOpen} onClose={() => setCommitOpen(false)} onCommit={onCommit} />
+      <QuickBuyModal
+        open={quickBuyOpen}
+        onClose={() => setQuickBuyOpen(false)}
+        tokenMint={stream.tokenMint}
+        ticker={stream.ticker}
+      />
     </section>
   );
 }
