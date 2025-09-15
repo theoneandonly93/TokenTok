@@ -91,6 +91,10 @@ export default function ProfilePage() {
             </button>
           </div>
           <hr className="my-4 border-white/10" />
+          <div className="flex flex-col gap-3">
+            <Link href="/inbox" className="rounded-xl bg-pink-500 text-white font-bold px-4 py-2 text-center hover:bg-pink-600 transition">Go to Inbox</Link>
+            <Link href="/inbox" className="rounded-xl bg-zinc-700 text-white font-bold px-4 py-2 text-center hover:bg-zinc-600 transition">+ Create Message</Link>
+          </div>
           <InboxSection />
         </div>
       </div>

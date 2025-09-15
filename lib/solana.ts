@@ -1,3 +1,30 @@
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+
+// Fetch all SPL token accounts for a wallet
+export async function getTokenAccounts(owner: PublicKey) {
+  const connection = getConnection();
+  const resp = await connection.getParsedTokenAccountsByOwner(owner, { programId: TOKEN_PROGRAM_ID });
+  return resp.value
+    .map((acc: any) => {
+      const info = acc.account.data.parsed.info;
+      return {
+        mint: info.mint,
+        amount: parseFloat(info.tokenAmount.uiAmountString),
+        symbol: undefined, // Optionally resolve symbol elsewhere
+      };
+    })
+    .filter((t: any) => t.amount > 0);
+}
+
+// Fetch token prices for a list of mints (mock, replace with real API)
+export async function getTokenPrices(mints: string[]): Promise<Record<string, number>> {
+  // TODO: Replace with real API call (Birdeye, Jupiter, etc)
+  const prices: Record<string, number> = {};
+  for (const mint of mints) {
+    prices[mint] = 0.01; // mock price
+  }
+  return prices;
+}
 'use client';
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 

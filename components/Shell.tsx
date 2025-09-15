@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Home, PlusCircle, User2 } from 'lucide-react';
+import { Home, PlusCircle, User2, Wallet } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
@@ -39,8 +39,8 @@ export default function Shell({ children }:{ children: React.ReactNode }) {
       {children}
       <nav className="absolute inset-x-0 bottom-0 z-30 mx-auto mb-2 flex max-w-screen-sm items-center justify-around rounded-2xl bg-white/10 px-4 py-2 backdrop-blur-md">
         <Link href="/" className="flex flex-col items-center text-xs"><Home size={18}/>Feed</Link>
+        <Link href="/portfolio" className="flex flex-col items-center text-xs"><Wallet size={18}/>Wallet</Link>
         <button onClick={()=>setGoLiveOpen(true)} className="flex flex-col items-center text-xs focus:outline-none"><PlusCircle size={18}/>Go Live</button>
-        <Link href="/inbox" className="flex flex-col items-center text-xs">📥 Inbox</Link>
         <Link href="/profile" className="flex flex-col items-center text-xs">
           {profilePhoto ? (
             <img src={profilePhoto} alt="Profile" className="w-6 h-6 rounded-full object-cover border border-white/20 mb-1" />
